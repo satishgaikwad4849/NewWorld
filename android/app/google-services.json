@@ -1,0 +1,40 @@
+{
+    "project_info": {
+      "project_number": "1016024845465",
+      "firebase_url": "https://newworld-f5884.firebaseio.com",
+      "project_id": "newworld-f5884",
+      "storage_bucket": "newworld-f5884.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:1016024845465:android:ffcf828ebf8ad5ce30bc08",
+          "android_client_info": {
+            "package_name": "com.newworld"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "1016024845465-ok8veubdd07v9863f9g9d7tvc1riaoti.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyBs2XI4ps75NyDn-hawlM49TxTebOYzPlE"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "1016024845465-ok8veubdd07v9863f9g9d7tvc1riaoti.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }
