@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Button, Alert, StatusBar, StyleSheet} from 'react-native';
+import {View, Alert, StatusBar, StyleSheet} from 'react-native';
 import {AuthContext} from '../Context';
 import firebase from 'firebase';
 import {
@@ -7,10 +7,14 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
+import { ActivityIndicator } from 'react-native-paper';
+import { Splash } from './Home_screen';
+import { LoaderScreen } from './loaderscreen';
 
-export const GoogleLogIn = () => {
+export const GoogleLogIn = ({navigation}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  // const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState(null);
   function configureGoogleSign() {
     GoogleSignin.configure({
@@ -24,12 +28,16 @@ export const GoogleLogIn = () => {
   useEffect(() => {
     configureGoogleSign();
   }, []);
+  
+  if (isLoading){
+    return <LoaderScreen/>
+  }
   const {googleSignIn} = React.useContext(AuthContext);
   async function firebaseSignIn() {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      setUserInfo(userInfo);
+      // setUserInfo(userInfo);
       setError(null);
       setIsLoggedIn(true);
       const googleCredential = firebase.auth.GoogleAuthProvider.credential(
@@ -40,7 +48,9 @@ export const GoogleLogIn = () => {
       return firebase
         .auth()
         .signInWithCredential(googleCredential)
-        .then(() => googleSignIn());
+        .then(() => googleSignIn()).then( setTimeout( () => {
+          setIsLoading(true);
+      }, 1000));
     } catch (error) {
         if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // when user cancels sign in process,
@@ -58,7 +68,7 @@ export const GoogleLogIn = () => {
       }
     }
   }
-  async function getCurrentUserInfo() {
+  /*async function getCurrentUserInfo() {
     try {
       const userInfo = await GoogleSignin.signInSilently();
       setUserInfo(userInfo)
@@ -83,6 +93,7 @@ export const GoogleLogIn = () => {
         Alert.alert('Something else went wrong... ', error.toString())
       }
   }
+  */
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -93,17 +104,6 @@ export const GoogleLogIn = () => {
           color={GoogleSigninButton.Color.Dark}
           onPress={() => firebaseSignIn()}
         />
-        <View style={styles.statusContainer}>
-          {isLoggedIn === false ? (
-            <Text style={styles.message}>You must sign in!</Text>
-          ) : (
-            <Button
-              onPress={() => signOut()}
-              title="Sign out"
-              color="#332211"
-            />
-          )}
-        </View>
       </View>
     </>
   );

@@ -25,6 +25,7 @@ import firebase from 'firebase';
 import * as yup from 'yup';
 import {Formik} from 'formik';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Splash from './Home_screen';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAlm1U20JLj6BAOgLfkhcCQDehsm80L03A",
@@ -92,6 +93,7 @@ export class SignUpScreen extends Component {
       [key]: value,
     });
   }
+
   render() {
     const countryData = data;
     return (
@@ -129,6 +131,7 @@ export class SignUpScreen extends Component {
             );
           setTimeout(() => {
             actions.setSubmitting(false);
+            
           }, 1000);
         }}
         validationSchema={yup.object().shape({
@@ -152,7 +155,7 @@ export class SignUpScreen extends Component {
         })}>
         {formikProps =>(
           <React.Fragment>
-            <Container  style={{backgroundColor: '#1f65ff'}}>
+            <Container  style={{backgroundColor: '#052c65'}}>
               <Content>
                 <Card style={{marginTop: 80, width: 350, marginLeft: 20, height: 550}}>
                   <Form style={{marginTop: 20, marginLeft: 25, width: 300}}>
@@ -308,7 +311,7 @@ export class SignUpScreen extends Component {
                   {formikProps.isSubmitting ? (
                     <ActivityIndicator />
                   ) : (
-                    <Button style={{marginTop:40,marginLeft:25,width:300, backgroundColor: '#1f65ff'}} onPress={formikProps.handleSubmit}>
+                    <Button style={{marginTop:40,marginLeft:25,width:300, backgroundColor: '#052c65'}} onPress={formikProps.handleSubmit}>
                       <Text style={{marginLeft:110}}>Submit</Text>
                     </Button>
                   )}

@@ -20,6 +20,9 @@ import {MainTabScreen} from './component/Screens/maintabs';
 import {SignInScreen} from './component/Screens/Signinscreen';
 import {SignUpScreen} from './component/Screens/Signupscreen';
 import AsyncStorage from '@react-native-community/async-storage';
+import {GoogleSignin} from '@react-native-community/google-signin';
+import {LoginManager} from 'react-native-fbsdk';
+
 
 const rootReducer = combineReducers({
   authReducer: authReducer,
@@ -34,6 +37,7 @@ const RootStackScreen = ({navigation}) => (
   <RootStack.Navigator headerMode="none">
     <RootStack.Screen name="SignInScreen" component={SignInScreen} />
     <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
+    <RootStack.Screen name="Splash" component={Splash} />
   </RootStack.Navigator>
 );
 
@@ -43,7 +47,6 @@ export default () => {
     userName: null,
     userToken: null,
   };
-
   const loginReducer = (prevState, action) => {
     switch (action.type) {
       case 'RETRIEVE_TOKEN':
@@ -81,6 +84,9 @@ export default () => {
   );
   //const [isLoading, setIsLoading] = React.useState(true);
   //const [userToken, setUserToken] = React.useState(null);
+  /*async function fbLogOut(){ 
+    LoginManager.logOut();
+  };*/
   const authContext = React.useMemo(() => {
     return {
       signIn: async (userName, password) => {
@@ -110,6 +116,17 @@ export default () => {
         }
         dispatch({type: 'LOGIN', token: userToken});
       },
+      fbSignIn: async () => {
+        let userToken;
+        userToken = null;
+        try {
+          userToken = 'dfgdfg';
+          await AsyncStorage.setItem('userToken', userToken);
+        } catch (e) {
+          console.log(e);
+        }
+        dispatch({type: 'LOGIN', token: userToken});
+      },
       signUp: () => {
         //setIsLoading(false);
         //setUserToken("asdf");
@@ -120,6 +137,9 @@ export default () => {
         //setUserToken(null);
         try {
           await AsyncStorage.removeItem('userToken');
+          await GoogleSignin.revokeAccess();
+          await GoogleSignin.signOut();
+          await fbLogOut();
         } catch (e) {
           console.log(e);
         }

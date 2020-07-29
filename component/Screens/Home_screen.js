@@ -7,11 +7,11 @@ import {
   ActivityIndicator,
   TouchableHighlight,
   Alert,
-  Image,
   ImageBackground,
   TouchableOpacity,
   FlatList,
 } from 'react-native';
+import { Image } from 'react-native-elements';
 import {db} from '../../android/app/src/config';
 import {Title} from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -22,12 +22,20 @@ export class Home extends Component {
     super(props);
     this.state = {
       data: [],
+      // loading: true,
     };
   }
   componentDidMount() {
     this.getData();
   }
-
+ /* componentWillMount() {
+    setTimeout(() => {
+      this.setState({
+        loading: false,
+      });
+    }, 3000);
+  }*/
+ 
   getData = async () => {
     const apiURL = 'https://www.breakingbadapi.com/api/characters?limit=6'
     fetch(apiURL)
@@ -55,13 +63,14 @@ export class Home extends Component {
       );
     }
     // const { signIn } = React.useContext(AuthContext);
-
+  
     return (
       <View>
         <Image
           style={styles.prof_sal_img}
           resizeMode="cover"
           source={{uri: item.img}}
+          PlaceholderContent={<ActivityIndicator />}
         />
       </View>
     );
@@ -90,6 +99,7 @@ export class Home extends Component {
           style={styles.prof_sal_img}
           resizeMode="cover"
           source={{uri: item.img}}
+          PlaceholderContent={<ActivityIndicator />}
         />
       </View>
     );
@@ -97,6 +107,7 @@ export class Home extends Component {
   render() {
     return (
       <View>
+      {/* {this.state.loading ? <Splash/>:<View> */}
         <Title style={styles.text_list}>Top Professionals</Title>
         <View style={styles.separator} />
         <FlatList
@@ -126,6 +137,8 @@ export class Home extends Component {
             </LinearGradient>
           </TouchableOpacity>
         </View>
+        {/* </View> */}
+      {/* } */}
       </View>
     );
   }
@@ -155,7 +168,7 @@ export class TopProfessionals extends Component {
   renderRow = ({item}) => {
     return (
       <View style={styles.container}>
-        <Image style={styles.prof_sal_tab} source={{uri: item.img}} />
+        <Image style={styles.prof_sal_tab} source={{uri: item.img}} PlaceholderContent={<ActivityIndicator />} />
       </View>
     );
   };
@@ -200,7 +213,7 @@ export class TopSalloons extends Component {
   renderRow = ({item}) => {
     return (
       <View style={styles.container}>
-        <Image style={styles.prof_sal_tab} source={{uri: item.img}} />
+        <Image style={styles.prof_sal_tab} source={{uri: item.img}} PlaceholderContent={<ActivityIndicator />} />
       </View>
     );
   };
@@ -384,8 +397,10 @@ const styles = StyleSheet.create({
     margin: 3,
   },
   prof_sal_tab: {
-    width: '60%',
-    height: 110,
+    flex: 1,
+    flexDirection: 'column',
+    width: 300,
+    height: 200,
     margin: 3,
   },
   prof_sal_seprator: {
